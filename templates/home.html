@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h2>this is the home page </h2>          <button><a href="{{ url_for('logout') }}">Log Out</a></button>{{username}}
+    <hr>
+    <h3>Write notes</h3>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+
+        <p>
+            {{ form.title(size=32) }} <br>
+            {% for error in form.title.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.category() }} <br>
+            {% for error in form.category.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.content(cols=50, rows=5) }} <br>
+            {% for error in form.content.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.submit() }}
+        </p>
+    </form>
+
+    <div class="notes-container">
+        <div class="note">
+            {% for note in notes %}
+                <a href="/notes/{{ note.id }}"> {{ note.title }}</a> <br>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

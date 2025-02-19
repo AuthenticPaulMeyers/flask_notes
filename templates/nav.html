@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <header>
+        <div class="logo">
+            <h2>Notes.</h2>
+        </div>
+        <nav>
+            <li><a href="{{ url_for('register') }}">Register</a></li>
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+        </nav>
+    </header>
+{% endblock %}
