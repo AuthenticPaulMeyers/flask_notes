@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h3>Log In</h3>
+    <hr>
+    <form action="/login" method="post" autocomplete="off" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username(size=30) }} <br>
+            {% for error in form.username.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password(size=30) }} <br>
+            {% for error in form.password.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.submit() }}
+        </p>
+        <p>New user? <a href="{{ url_for('register') }}">Click here to register</a></p>
+        </form>
+    </form>
+{% endblock %}
