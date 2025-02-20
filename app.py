@@ -50,12 +50,18 @@ def register():
     form = RegistrationForm()
 
     if form.validate_on_submit():
+
+        users = db.execute('SELECT * FROM users')
         username = form.username.data
         email = form.email.data
         password = form.password.data
 
+        for user in users:
+            if username == user['username'] or email == user['email']:
+                flash("User already exist!")
+                return redirect(url_for('register'))
+            
         db.execute("INSERT INTO users(username, email, password) VALUES (?, ?, ?)", username, email, password)
-
         flash("Registered successfully!")
         return redirect('login')
     return render_template('register.html', form=form, title=title)
