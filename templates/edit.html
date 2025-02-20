@@ -5,9 +5,8 @@
     <hr>
     
     <div class="read-container">
-        <h3>{{ note.title }}</h3><br>
-        <span>{{ note.created_at }}</span>
-        <p>{{ note.content }}</p>
+        <input type="text" value="{{ note.title }}" placeholder="Title"> <br> <br>
+        <textarea name="" id="" cols="30" rows="5">{{ note.content }}</textarea> <br>
         <button><a href="/notes/{{ note.id }}">Delete</a></button> <br>
 
     </div>
