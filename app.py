@@ -69,6 +69,28 @@ def register():
 # home page where users will be taking notes
 @app.route('/home', methods=['POST', 'GET'])
 def home():
+    user_id = db.execute("SELECT id FROM users WHERE username = (?)", (session.get("username")))
+    if user_id:
+        user_id = user_id[0]['id']
+    count = db.execute("SELECT COUNT(*) FROM notes WHERE user_id = ?", user_id)
+    count = count[0]['COUNT(*)']
+
+    notes = db.execute("SELECT notes.id, notes.content, category.name, notes.title FROM notes JOIN users ON users.id = notes.user_id JOIN category ON category.id = notes.category_id WHERE notes.user_id = ? ORDER BY notes.created_at DESC", user_id)
+
+    return render_template('home.html', username=session.get("username"), notes=notes, count=count)
+
+
+
+# Logout route
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
+
+# Add route
+@app.route('/add', methods=["POST", "GET"])
+def add():
     form = NotesForm()
     category = form.category.data
 
@@ -88,25 +110,13 @@ def home():
 
         flash("Note added successfully!")
         return redirect(url_for("home"))
-    
+    return render_template('add.html', username=session.get("username"), form=form)
 
-    notes = db.execute("SELECT notes.id, notes.content, category.name, notes.title FROM notes JOIN users ON users.id = notes.user_id JOIN category ON category.id = notes.category_id WHERE notes.user_id = ? ORDER BY notes.created_at", user_id)
-
-    return render_template('home.html', username=session.get("username"), form=form, notes=notes)
-
-
-
-# Logout route
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('login'))
-
-
-
-
-
-
+# Read notes route
+@app.route('/notes/<int:note_id>')
+def notes(note_id):
+    db.execute('DELETE FROM notes WHERE id = (?)', note_id)
+    return redirect(url_for('home'))
 
 
 
