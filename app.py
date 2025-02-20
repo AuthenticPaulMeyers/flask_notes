@@ -115,7 +115,8 @@ def add():
 # Read notes route
 @app.route('/notes/<int:note_id>')
 def notes(note_id):
-    db.execute('DELETE FROM notes WHERE id = (?)', note_id)
+    db.execute("DELETE FROM notes WHERE id = (?)", note_id)
+    flash("Note deleted!")
     return redirect(url_for('home'))
 
 
@@ -125,6 +126,13 @@ def read(note_id):
     note = db.execute("SELECT * FROM notes WHERE id = (?)", note_id)
     note = note[0]
     return render_template("read.html", note=note)
+    
+# Edit route
+@app.route('/edit/<int:note_id>')
+def edit(note_id):
+    note = db.execute("SELECT * FROM notes WHERE id = (?)", note_id)
+    note = note[0]
+    return render_template("edit.html", note=note)
 
 if __name__ == "__main__":
     app.run(debug=True)

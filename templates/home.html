@@ -10,7 +10,7 @@
         <div class="note">
             {% for note in notes %}
                 <a href="/read/{{ note.id }}"> {{ note.title }}</a>
-                <button><a href="/notes/{{ note.id }}">Delete</a></button> <br>
+                <button><a href="/notes/{{ note.id }}">Delete</a></button> <button><a href="/edit/{{ note.id }}">edit</a></button><br>
             {% endfor %}
         </div>
     </div>
