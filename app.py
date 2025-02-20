@@ -119,7 +119,12 @@ def notes(note_id):
     return redirect(url_for('home'))
 
 
-
+# Read  route
+@app.route('/read/<int:note_id>')
+def read(note_id):
+    note = db.execute("SELECT * FROM notes WHERE id = (?)", note_id)
+    note = note[0]
+    return render_template("read.html", note=note)
 
 if __name__ == "__main__":
     app.run(debug=True)
