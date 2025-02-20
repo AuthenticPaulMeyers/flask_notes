@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <button><a href="{{ url_for('home') }}">Back</a></button>
+    <hr>
+    
+    <div class="notes-container">
+        <div class="note">
+            <!-- {% for note in notes %} -->
+                {{ note. content }}
+                <button><a href="/notes/{{ note.id }}">Delete</a></button> <br>
+            <!-- {% endfor %} -->
+        </div>
+    </div>
+
+{% endblock %}
