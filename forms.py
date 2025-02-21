@@ -18,5 +18,13 @@ class RegistrationForm(FlaskForm):
 class NotesForm(FlaskForm):
     category = SelectField("Select category", choices=[('School', 'School'), ('Church', 'Church'), ('Personal','Personal'), ('Other', 'Other')], default='Other')
     title = StringField("Title", validators=[DataRequired()], render_kw={"placeholder": "Title"})
-    content = TextAreaField("Content", validators=[Length(min=0, max=160)], render_kw={"placeholder": "Write notes here"})
+    content = TextAreaField("Content", validators=[Length(min=0, max=10000)], render_kw={"placeholder": "Write notes here"})
     submit = SubmitField("Save")
+
+class UpdateNotesForm(FlaskForm):
+    update_category = SelectField("Update Category", choices=[('School', 'School'), ('Church', 'Church'), ('Personal','Personal'), ('Other', 'Other')], default='Other')
+    update_title = StringField("Update Title", validators=[DataRequired()], render_kw={"placeholder": "Title"})
+    update_content = TextAreaField("Update Content", validators=[Length(min=0, max=10000)], render_kw={"placeholder": "Write notes here"})
+    submit = SubmitField("Save")
+
+

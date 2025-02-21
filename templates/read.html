@@ -6,9 +6,12 @@
     
     <div class="read-container">
         <h3>{{ note.title }}</h3><br>
+        <p>{{ note.created_at }}</p>
+        <span>{{ note.name }} notes</span> <br>
+        <hr>
         <span>{{ note.created_at }}</span>
         <p>{{ note.content }}</p>
-        <button><a href="/notes/{{ note.id }}">Delete</a></button> <br>
+        <button><a href="/notes/{{ note.id }}">Delete</a></button> <button><a href="/edit/{{ note.id }}">edit</a></button><br><br>
 
     </div>
 

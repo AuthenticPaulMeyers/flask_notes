@@ -1,6 +1,6 @@
 # import libraries
-from flask import Flask, render_template, redirect, url_for, flash, session
-from forms import LoginForm, RegistrationForm, NotesForm
+from flask import Flask, render_template, redirect, url_for, flash, session, request
+from forms import LoginForm, RegistrationForm, NotesForm, UpdateNotesForm
 from flask_wtf import CSRFProtect
 from flask_session import Session
 from cs50 import SQL
@@ -85,7 +85,7 @@ def home():
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('login'))
+    return redirect(url_for('index'))
 
 
 # Add route
@@ -112,7 +112,7 @@ def add():
         return redirect(url_for("home"))
     return render_template('add.html', username=session.get("username"), form=form)
 
-# Read notes route
+# Delete notes route
 @app.route('/notes/<int:note_id>')
 def notes(note_id):
     db.execute("DELETE FROM notes WHERE id = (?)", note_id)
@@ -123,16 +123,46 @@ def notes(note_id):
 # Read  route
 @app.route('/read/<int:note_id>')
 def read(note_id):
-    note = db.execute("SELECT * FROM notes WHERE id = (?)", note_id)
+    note = db.execute("SELECT notes.id, notes.title, notes.content, category.name, notes.created_at FROM notes JOIN category ON category.id = notes.category_id WHERE notes.id = (?)", note_id)
     note = note[0]
     return render_template("read.html", note=note)
     
 # Edit route
-@app.route('/edit/<int:note_id>')
+@app.route('/edit/<int:note_id>', methods=['POST', 'GET'])
 def edit(note_id):
-    note = db.execute("SELECT * FROM notes WHERE id = (?)", note_id)
-    note = note[0]
-    return render_template("edit.html", note=note)
+    form=UpdateNotesForm()
+    # get the note content to be displayed to be edited
+    note = db.execute("SELECT notes.id, notes.title, notes.content, category.name FROM notes JOIN category ON category.id = notes.category_id WHERE notes.id = (?)", note_id)
+    if note:
+        note = note[0]
+    if request.method == 'GET':
+        form.update_category.data = note['name'] 
+        form.update_title.data = note['title']
+        form.update_content.data = note['content']
+
+    # Update the note
+    category = form.update_category.data
+    category_id = db.execute("SELECT id FROM category WHERE name = (?)", category)
+    if category_id:
+        category_id = category_id[0]['id']
+
+    user_id = db.execute("SELECT id FROM users WHERE username = (?)", (session.get("username")))
+    if user_id:
+        user_id = user_id[0]['id']
+    
+    if form.validate_on_submit():
+        update_title = form.update_title.data
+        update_content = form.update_content.data
+        print(update_title)
+        print(update_content)
+
+        db.execute("UPDATE notes SET user_id = ?, title = ?, content = ?, category_id = ? WHERE id = ?", (user_id), (update_title), (update_content), (category_id), (note_id))
+
+
+        flash("Note updated successfully!")
+        return redirect(url_for("home"))
+    return render_template("edit.html", note=note, form=form)
+    
 
 if __name__ == "__main__":
     app.run(debug=True)

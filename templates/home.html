@@ -4,15 +4,16 @@
     <h2>Welcome {{username}}</h2><button><a href="{{ url_for('logout') }}">Log Out</a></button>
     <hr>
     <h3>All notes: {{ count }}</h3>
-    <button><a href="{{url_for('add')}}">Add</a></button> <br>
+    <button><a href="{{url_for('add')}}">New note</a></button> <br>
     
     <div class="notes-container">
-        <div class="note">
-            {% for note in notes %}
-                <a href="/read/{{ note.id }}"> {{ note.title }}</a>
-                <button><a href="/notes/{{ note.id }}">Delete</a></button> <button><a href="/edit/{{ note.id }}">edit</a></button><br>
-            {% endfor %}
-        </div>
+        {% for note in notes %}
+            <div class="note">
+                    <a href="/read/{{ note.id }}"> {{ note.title }}</a>
+                    <button><a href="/notes/{{ note.id }}">Delete</a></button> 
+            </div><br>
+        {% endfor %}
+
     </div>
 
 {% endblock %}

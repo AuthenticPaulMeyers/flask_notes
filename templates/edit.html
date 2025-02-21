@@ -1,15 +1,38 @@
+
 {% extends 'layout.html' %}
 
 {% block content %}
+
     <button><a href="{{ url_for('home') }}">Back</a></button>
     <hr>
-    
-    <div class="read-container">
-        <input type="text" value="{{ note.title }}" placeholder="Title"> <br> <br>
-        <textarea name="" id="" cols="30" rows="5">{{ note.content }}</textarea> <br>
-        <button><a href="/notes/{{ note.id }}">Delete</a></button> <br>
-
-    </div>
-
+    <h3>Edit Note</h3>
+    <form action="/edit/{{note.id}}" method="post">
+        {{ form.hidden_tag() }}
+        <p>{{updated_title}}</p>
+        <p>
+            {{ form.update_title(size=32) }} <br>
+            {% for error in form.update_title.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.update_category() }} <br>
+            {% for error in form.update_category.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.update_content(cols=50, rows=15) }} <br>
+            {% for error in form.update_content.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.submit() }} <button><a href="/notes/{{ note.id }}">Delete</a></button> <br>
+        </p>
+        
+    </form>
 
 {% endblock %}
+
+
