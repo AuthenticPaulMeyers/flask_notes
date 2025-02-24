@@ -2,36 +2,43 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+<div class="container mt-3">
+    <div class="navbar d-flex p-3 navbar-light bg-light">
+        <div class="d-flex">
+            <button class="btn btn-primary"><a href="{{ url_for('home') }}" class="text-light" style="text-decoration: none;"><i class="fa-solid fa-arrow-left"></i> Back</a></button>
+            <h3>Edit Note</h3>
 
-    <button><a href="{{ url_for('home') }}">Back</a></button>
-    <hr>
-    <h3>Edit Note</h3>
+        </div>
+        <button class="btn btn-light" style="border: 1px solid lightblue;"><a href="{{ url_for('logout') }}" class="text-primary" style="text-decoration: none;">Log Out <i class="fa-solid fa-right-from-bracket"></i></a></button>
+
+    </div>
     <form action="/edit/{{note.id}}" method="post">
         {{ form.hidden_tag() }}
         <p>{{updated_title}}</p>
         <p>
-            {{ form.update_title(size=32) }} <br>
+            {{ form.update_title(size=32, class="form-control") }} <br>
             {% for error in form.update_title.errors %}
-                <span>{{ error }}</span>
+                <span style="color: red">{{ error }}</span>
             {% endfor %}
         </p>
         <p>
-            {{ form.update_category() }} <br>
+            {{ form.update_category(class="form-control") }} <br>
             {% for error in form.update_category.errors %}
-                <span>{{ error }}</span>
+                <span style="color: red">{{ error }}</span>
             {% endfor %}
         </p>
         <p>
-            {{ form.update_content(cols=50, rows=15) }} <br>
+            {{ form.update_content(cols=50, rows=15, class="form-control") }} <br>
             {% for error in form.update_content.errors %}
-                <span>{{ error }}</span>
+                <span style="color: red">{{ error }}</span>
             {% endfor %}
         </p>
         <p>
-            {{ form.submit() }} <button><a href="/notes/{{ note.id }}">Delete</a></button> <br>
+            {{ form.submit(class="btn btn-success") }} <button class="btn btn-danger"><a href="/notes/{{ note.id }}" class="text-light" style="text-decoration: none;">Delete</a></button> <br>
         </p>
         
     </form>
+</div>
 
 {% endblock %}
 

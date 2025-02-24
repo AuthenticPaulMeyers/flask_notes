@@ -1,19 +1,21 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <button><a href="{{ url_for('home') }}">Back</a></button>
-    <hr>
-    
-    <div class="read-container">
-        <h3>{{ note.title }}</h3><br>
-        <p>{{ note.created_at }}</p>
-        <span>{{ note.name }} notes</span> <br>
+   <div class="container mt-5">
+        <button class="btn btn-primary"><a href="{{ url_for('home') }}" class="text-light" style="text-decoration: none;"><i class="fa-solid fa-arrow-left"></i> Back</a></button>
         <hr>
-        <span>{{ note.created_at }}</span>
-        <p>{{ note.content }}</p>
-        <button><a href="/notes/{{ note.id }}">Delete</a></button> <button><a href="/edit/{{ note.id }}">edit</a></button><br><br>
+        
+        <div>
+            <h3>{{ note.title }}</h3>
+            <span>{{ note.created_at }}</span> <br>
+            <span><i class="fa-solid fa-folder-open"></i> {{ note.name }} notes</span> <br>
+            <hr>
+            <p>{{ note.content }}</p>
+            <hr>
+            <button class="btn btn-danger"><a href="/notes/{{ note.id }}" class="text-light" style="text-decoration: none;"><i class="fa-solid fa-trash"></i></a></button> <button class="btn btn-success"><a class="text-light" style="text-decoration: none;" href="/edit/{{ note.id }}"><i class="fa-solid fa-pen"></i></a></button><br><br>
 
-    </div>
+        </div>
+   </div>
 
 
 {% endblock %}

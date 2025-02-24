@@ -1,13 +1,15 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <header>
-        <div class="logo">
-            <h2>Notes.</h2>
-        </div>
-        <nav>
-            <li><a href="{{ url_for('register') }}">Register</a></li>
-            <li><a href="{{ url_for('login') }}">Login</a></li>
-        </nav>
+    <header class="navbar navbar-light bg-light">
+       <div class="container-fluid">
+            <div class="logo">
+                <h2 class="fs-3"><span class="text-primary">#</span>Notes</h2>
+            </div>
+            <nav>
+                <li class="btn btn-light" style="border: 1px solid lightblue"><a href="{{ url_for('register') }}" class="text-primary" style="text-decoration: none;">Register</a></li>
+                <li class="btn btn-primary"><a href="{{ url_for('login') }}" class="text-white" style="text-decoration: none;">Login</a></li>
+            </nav>
+       </div>
     </header>
 {% endblock %}

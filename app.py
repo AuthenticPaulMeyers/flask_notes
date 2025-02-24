@@ -1,4 +1,4 @@
-# import libraries
+# import libraries and dependencies
 from flask import Flask, render_template, redirect, url_for, flash, session, request
 from forms import LoginForm, RegistrationForm, NotesForm, UpdateNotesForm
 from flask_wtf import CSRFProtect
@@ -79,14 +79,11 @@ def home():
 
     return render_template('home.html', username=session.get("username"), notes=notes, count=count)
 
-
-
 # Logout route
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('index'))
-
 
 # Add route
 @app.route('/add', methods=["POST", "GET"])
@@ -118,7 +115,6 @@ def notes(note_id):
     db.execute("DELETE FROM notes WHERE id = (?)", note_id)
     flash("Note deleted!")
     return redirect(url_for('home'))
-
 
 # Read  route
 @app.route('/read/<int:note_id>')

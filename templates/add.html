@@ -1,33 +1,39 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <h2>this is the home page </h2>          <button><a href="{{ url_for('logout') }}">Log Out</a></button>{{username}}
+    <div class="container mt-5">
+        <div class="navbar d-flex p-3 navbar-light bg-light">
+            <h4>Write notes <i class="fa-solid fa-pen"></i></h4>
+
+            <!-- <h3> {{username.capitalize()}} </h3> -->
+            <button class="btn btn-light" style="border: 1px solid lightblue;"><a href="{{ url_for('logout') }}" class="text-primary" style="text-decoration: none;">Log Out <i class="fa-solid fa-right-from-bracket"></i></a></button>
+        </div>
     <hr>
-    <h3>Write notes</h3>
     <form action="" method="post">
         {{ form.hidden_tag() }}
 
         <p>
-            {{ form.title(size=32) }} <br>
+            {{ form.title(size=32, class="form-control") }} <br>
             {% for error in form.title.errors %}
-                <span>{{ error }}</span>
+                <span style="color: red">{{ error }}</span>
             {% endfor %}
         </p>
         <p>
-            {{ form.category() }} <br>
+            {{ form.category(class="form-control") }} <br>
             {% for error in form.category.errors %}
-                <span>{{ error }}</span>
+                <span style="color: red">{{ error }}</span>
             {% endfor %}
         </p>
         <p>
-            {{ form.content(cols=60, rows=25) }} <br>
+            {{ form.content(cols=60, rows=10, class="form-control") }} <br>
             {% for error in form.content.errors %}
-                <span>{{ error }}</span>
+                <span style="color: red">{{ error }}</span>
             {% endfor %}
         </p>
         <p>
-            {{ form.submit() }} <button><a href="/home">Cancel</a></button>
+            {{ form.submit(class="btn btn-success") }} <button class="btn btn-danger"><a href="/home" class="text-light" style="text-decoration: none;">Cancel</a></button>
         </p>
     </form>
+    </div>
 
 {% endblock %}
